@@ -1,0 +1,724 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10243a">
+<meta name="description" content="Radiation Dose Tracker 5 — scientific radiation units converter and dose calculator.">
+<title>Radiation Dose Tracker 5</title>
+
+<style>
+:root {
+  --bg:#071525;
+  --panel:#10243a;
+  --panel2:#142d47;
+  --border:#29445f;
+  --text:#edf4fb;
+  --muted:#a9bed2;
+  --yellow:#ffd34f;
+  --blue:#58b9ff;
+  --green:#65d6a0;
+  --red:#ff8585;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  padding:22px;
+  background:linear-gradient(145deg,#061321,#10243a);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+}
+.container {max-width:1100px;margin:auto}
+header {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:25px;
+  padding:15px 0 28px;
+  text-align:left;
+}
+.logo {
+  width:155px;
+  height:155px;
+  flex-shrink:0;
+}
+.header-text {min-width:0}
+.kicker {
+  color:var(--yellow);
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+h1 {
+  color:#fff;
+  font-size:clamp(23px,4vw,35px);
+  line-height:1.15;
+  margin:0 0 12px;
+}
+.author-top {font-size:15px;line-height:1.7}
+a {color:var(--yellow)}
+.subtitle {color:var(--muted);margin:9px 0}
+.tag {
+  display:inline-block;
+  border:1px solid #b58d27;
+  color:var(--yellow);
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+}
+.intro {
+  color:var(--muted);
+  text-align:center;
+  line-height:1.6;
+  margin:0 auto 22px;
+  max-width:850px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:17px;
+}
+.panel {
+  background:linear-gradient(145deg,var(--panel),#0c1e31);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 8px 25px #0003;
+}
+.panel h2 {
+  color:var(--yellow);
+  font-size:19px;
+  margin:0 0 7px;
+}
+.description {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+  margin:0 0 17px;
+}
+label {
+  display:block;
+  color:#d9e6f2;
+  font-size:13px;
+  margin:12px 0 6px;
+}
+input,select {
+  width:100%;
+  padding:12px;
+  border:1px solid #385571;
+  border-radius:9px;
+  background:#071727;
+  color:#fff;
+  font-size:15px;
+  outline:none;
+}
+input:focus,select:focus {border-color:var(--blue)}
+button {
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+  margin:12px 6px 0 0;
+}
+.primary {background:var(--yellow);color:#172333}
+.secondary {background:#294762;color:white}
+.danger {background:#713b46;color:white}
+.result {
+  background:#071727;
+  border:1px solid #31516d;
+  border-radius:10px;
+  padding:13px;
+  margin-top:14px;
+  min-height:48px;
+  color:var(--green);
+  overflow-wrap:anywhere;
+  line-height:1.5;
+}
+.wide {grid-column:1/-1}
+.history-item {
+  border-bottom:1px solid var(--border);
+  padding:11px 2px;
+  font-size:13px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+.history-item:last-child {border-bottom:0}
+.history-date {color:var(--muted);font-size:11px}
+.note {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-top:12px;
+}
+footer {
+  border-top:1px solid var(--border);
+  margin-top:28px;
+  padding:20px 5px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+}
+footer strong {color:#fff}
+
+@media(max-width:700px) {
+  body {padding:13px}
+  header {
+    flex-direction:column;
+    text-align:center;
+    gap:10px;
+  }
+  .logo {width:125px;height:125px}
+  .grid {grid-template-columns:1fr}
+  .wide {grid-column:auto}
+  .panel {padding:16px}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+
+  <!-- EMBEDDED RADIATION DOSE TRACKER 5 ICON -->
+  <svg class="logo" viewBox="0 0 200 200"
+       xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-label="Radiation Dose Tracker 5 icon">
+
+    <defs>
+      <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#183e62"/>
+        <stop offset="1" stop-color="#061525"/>
+      </linearGradient>
+
+      <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#fff09a"/>
+        <stop offset="1" stop-color="#f2b91e"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Dark blue background -->
+    <rect x="3" y="3" width="194" height="194" rx="28"
+          fill="url(#background)"
+          stroke="#52799b" stroke-width="3"/>
+
+    <!-- Earth -->
+    <circle cx="100" cy="72" r="45"
+            fill="#174d79"
+            stroke="#69c6ed" stroke-width="2"/>
+
+    <path d="M67 52 Q83 35 98 47 L93 62 78 70 70 88
+             M105 28 L119 43 113 57 130 65 136 82
+             M91 78 L108 85 112 105 M65 64 L80 58"
+          fill="none"
+          stroke="#76d4b2"
+          stroke-width="5"
+          stroke-linecap="round"/>
+
+    <circle cx="100" cy="72" r="45"
+            fill="none"
+            stroke="#8ed7f5"
+            stroke-width="1.5"/>
+
+    <!-- INTERNATIONAL RADIATION TREFOIL -->
+    <g transform="translate(100 72)"
+       fill="url(#gold)"
+       stroke="#6e5110"
+       stroke-width="1">
+
+      <!-- First blade -->
+      <path d="M-7 -13
+               A15 15 0 0 1 7 -13
+               L24 -40
+               A43 43 0 0 0 -24 -40
+               Z"/>
+
+      <!-- Second blade -->
+      <path d="M-7 -13
+               A15 15 0 0 1 7 -13
+               L24 -40
+               A43 43 0 0 0 -24 -40
+               Z"
+            transform="rotate(120)"/>
+
+      <!-- Third blade -->
+      <path d="M-7 -13
+               A15 15 0 0 1 7 -13
+               L24 -40
+               A43 43 0 0 0 -24 -40
+               Z"
+            transform="rotate(240)"/>
+
+      <!-- Central circle -->
+      <circle cx="0" cy="0" r="8"/>
+    </g>
+
+    <!-- Number 5 -->
+    <text x="100" y="155"
+          text-anchor="middle"
+          font-family="Arial,sans-serif"
+          font-size="62"
+          font-weight="900"
+          fill="url(#gold)"
+          stroke="#6e5110"
+          stroke-width="1">5</text>
+
+    <!-- App name -->
+    <text x="100" y="181"
+          text-anchor="middle"
+          font-family="Arial,sans-serif"
+          font-size="10"
+          font-weight="bold"
+          letter-spacing="1.1"
+          fill="#ffffff">DOSE TRACKER</text>
+
+  </svg>
+
+  <div class="header-text">
+    <div class="kicker">SCIENTIFIC RADIATION CALCULATOR</div>
+
+    <h1>RADIATION DOSE TRACKER 5</h1>
+
+    <div class="author-top">
+      <strong>Mikheil Jorbenadze, PhD</strong><br>
+      ORCID:
+      <a href="https://orcid.org/0009-0004-3914-1959"
+         target="_blank" rel="noopener">
+        0009-0004-3914-1959
+      </a>
+    </div>
+
+    <p class="subtitle">
+      Radiation Units Converter &amp; Dose Calculator
+    </p>
+
+    <span class="tag">Educational Scientific Application</span>
+  </div>
+</header>
+
+<p class="intro">
+  Convert radiation dose, absorbed dose and radioactive activity units.
+  Calculate accumulated dose from a dose rate and keep a local calculation history.
+</p>
+
+<main class="grid">
+
+  <!-- 1. SIEVERT -->
+  <section class="panel">
+    <h2>1. Sievert Converter (Sv)</h2>
+    <p class="description">
+      Equivalent and effective dose units. Converts between prefixes
+      of the sievert unit.
+    </p>
+
+    <label for="svValue">Dose value</label>
+    <input id="svValue" type="number" step="any" placeholder="Enter value">
+
+    <label for="svFrom">From</label>
+    <select id="svFrom">
+      <option value="1">Sv</option>
+      <option value="0.001">mSv</option>
+      <option value="0.000001">µSv</option>
+      <option value="0.000000001">nSv</option>
+      <option value="1000">kSv</option>
+    </select>
+
+    <label for="svTo">To</label>
+    <select id="svTo">
+      <option value="0.001">mSv</option>
+      <option value="1">Sv</option>
+      <option value="0.000001">µSv</option>
+      <option value="0.000000001">nSv</option>
+      <option value="1000">kSv</option>
+    </select>
+
+    <button class="primary" onclick="convert('sv')">Convert dose</button>
+    <div class="result" id="svResult" aria-live="polite">
+      Result will appear here.
+    </div>
+  </section>
+
+  <!-- 2. GRAY -->
+  <section class="panel">
+    <h2>2. Gray Converter (Gy)</h2>
+    <p class="description">
+      Absorbed dose units. This converter changes prefixes of gray;
+      it does not convert Gy into Sv.
+    </p>
+
+    <label for="gyValue">Absorbed dose value</label>
+    <input id="gyValue" type="number" step="any" placeholder="Enter value">
+
+    <label for="gyFrom">From</label>
+    <select id="gyFrom">
+      <option value="1">Gy</option>
+      <option value="0.001">mGy</option>
+      <option value="0.000001">µGy</option>
+      <option value="0.000000001">nGy</option>
+      <option value="1000">kGy</option>
+    </select>
+
+    <label for="gyTo">To</label>
+    <select id="gyTo">
+      <option value="0.001">mGy</option>
+      <option value="1">Gy</option>
+      <option value="0.000001">µGy</option>
+      <option value="0.000000001">nGy</option>
+      <option value="1000">kGy</option>
+    </select>
+
+    <button class="primary" onclick="convert('gy')">Convert absorbed dose</button>
+    <div class="result" id="gyResult" aria-live="polite">
+      Result will appear here.
+    </div>
+  </section>
+
+  <!-- 3. BECQUEREL -->
+  <section class="panel">
+    <h2>3. Becquerel Converter (Bq)</h2>
+    <p class="description">
+      Radioactive activity units. One becquerel corresponds to
+      one nuclear transformation per second.
+    </p>
+
+    <label for="bqValue">Activity value</label>
+    <input id="bqValue" type="number" step="any" placeholder="Enter value">
+
+    <label for="bqFrom">From</label>
+    <select id="bqFrom">
+      <option value="1">Bq</option>
+      <option value="1000">kBq</option>
+      <option value="1000000">MBq</option>
+      <option value="1000000000">GBq</option>
+      <option value="0.001">mBq</option>
+    </select>
+
+    <label for="bqTo">To</label>
+    <select id="bqTo">
+      <option value="1000">kBq</option>
+      <option value="1">Bq</option>
+      <option value="1000000">MBq</option>
+      <option value="1000000000">GBq</option>
+      <option value="0.001">mBq</option>
+    </select>
+
+    <button class="primary" onclick="convert('bq')">Convert activity</button>
+    <div class="result" id="bqResult" aria-live="polite">
+      Result will appear here.
+    </div>
+  </section>
+
+  <!-- 4. DOSE RATE -->
+  <section class="panel">
+    <h2>4. Dose Rate Calculator</h2>
+    <p class="description">
+      Estimate accumulated dose from a constant dose rate
+      over a specified time.
+    </p>
+
+    <label for="rateValue">Dose rate value</label>
+    <input id="rateValue" type="number" step="any" placeholder="Enter dose rate">
+
+    <label for="rateUnit">Dose rate unit</label>
+    <select id="rateUnit">
+      <option value="1">Sv/h</option>
+      <option value="0.001">mSv/h</option>
+      <option value="0.000001">µSv/h</option>
+      <option value="0.000000001">nSv/h</option>
+      <option value="60">Sv/min</option>
+    </select>
+
+    <label for="timeValue">Exposure time</label>
+    <input id="timeValue" type="number" step="any" placeholder="Enter duration">
+
+    <label for="timeUnit">Time unit</label>
+    <select id="timeUnit">
+      <option value="1">Hours</option>
+      <option value="0.0166666666667">Minutes</option>
+      <option value="24">Days</option>
+      <option value="8760">Years (365 days)</option>
+    </select>
+
+    <button class="primary" onclick="calculateRate()">
+      Calculate accumulated dose
+    </button>
+
+    <div class="result" id="rateResult" aria-live="polite">
+      Result will appear here.
+    </div>
+
+    <p class="note">
+      Assumes a constant dose rate for the entire entered time.
+      Actual exposure may vary.
+    </p>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="panel wide">
+    <h2>Calculation History</h2>
+    <p class="description">
+      Results are stored locally in this browser on this device.
+    </p>
+
+    <div id="history">
+      <div class="note">No calculations saved yet.</div>
+    </div>
+
+    <button class="secondary" onclick="copyHistory()">Copy history</button>
+    <button class="danger" onclick="clearHistory()">Clear history</button>
+
+    <div class="note">
+      Clearing browser data may remove this history.
+    </div>
+  </section>
+
+  <!-- SCIENTIFIC NOTES -->
+  <section class="panel wide">
+    <h2>Scientific Notes</h2>
+    <p class="description">
+      Radiation quantities and units describe different physical concepts.
+    </p>
+
+    <p class="note">
+      <strong>Sievert (Sv):</strong> equivalent or effective dose,
+      expressed with radiation and tissue weighting considerations.
+    </p>
+
+    <p class="note">
+      <strong>Gray (Gy):</strong> absorbed energy per unit mass.
+      One gray equals one joule per kilogram.
+    </p>
+
+    <p class="note">
+      <strong>Becquerel (Bq):</strong> radioactive activity.
+      One becquerel equals one nuclear transformation per second.
+    </p>
+
+    <p class="note">
+      <strong>Dose rate:</strong> dose delivered per unit time.
+      Accumulated dose is estimated by multiplying a constant rate
+      by the exposure duration.
+    </p>
+
+    <p class="note">
+      Gy and Sv are not interchangeable by a simple unit-prefix conversion.
+      Their relationship depends on radiation type, geometry and
+      dosimetric quantity.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <strong>RADIATION DOSE TRACKER 5</strong><br>
+  © Mikheil Jorbenadze, PhD<br>
+  ORCID:
+  <a href="https://orcid.org/0009-0004-3914-1959"
+     target="_blank" rel="noopener">
+    0009-0004-3914-1959
+  </a>
+  <br>
+  Educational scientific application only.
+  Not intended for clinical diagnosis, emergency response
+  or official radiation protection decisions.
+</footer>
+
+</div>
+
+<script>
+const STORAGE_KEY = "radiationDoseTracker5History";
+
+function formatNumber(value) {
+  if (!Number.isFinite(value)) return "Invalid result";
+
+  return Number(value.toPrecision(10)).toLocaleString("en-US", {
+    maximumSignificantDigits: 10
+  });
+}
+
+function saveHistory(description, result) {
+  try {
+    const entries = getHistory();
+
+    entries.unshift({
+      description,
+      result,
+      date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(entries.slice(0, 100))
+    );
+
+    renderHistory();
+  } catch (error) {
+    console.error("Unable to save history:", error);
+    alert("Browser storage is unavailable. The result is displayed but was not saved.");
+  }
+}
+
+function getHistory() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function convert(type) {
+  const value = Number(document.getElementById(type + "Value").value);
+  const from = Number(document.getElementById(type + "From").value);
+  const to = Number(document.getElementById(type + "To").value);
+  const resultBox = document.getElementById(type + "Result");
+
+  if (
+    document.getElementById(type + "Value").value.trim() === "" ||
+    !Number.isFinite(value) ||
+    !Number.isFinite(from) ||
+    !Number.isFinite(to) ||
+    value < 0
+  ) {
+    resultBox.textContent = "Please enter a valid non-negative number.";
+    return;
+  }
+
+  const result = value * from / to;
+
+  const fromUnit = document.getElementById(type + "From")
+    .selectedOptions[0].text;
+
+  const toUnit = document.getElementById(type + "To")
+    .selectedOptions[0].text;
+
+  const message =
+    `${formatNumber(value)} ${fromUnit} = ${formatNumber(result)} ${toUnit}`;
+
+  resultBox.textContent = message;
+  saveHistory(type.toUpperCase() + " conversion", message);
+}
+
+function calculateRate() {
+  const rateInput = document.getElementById("rateValue");
+  const timeInput = document.getElementById("timeValue");
+
+  const rate = Number(rateInput.value);
+  const rateFactor = Number(document.getElementById("rateUnit").value);
+  const time = Number(timeInput.value);
+  const timeFactor = Number(document.getElementById("timeUnit").value);
+  const resultBox = document.getElementById("rateResult");
+
+  if (
+    rateInput.value.trim() === "" ||
+    timeInput.value.trim() === "" ||
+    !Number.isFinite(rate) ||
+    !Number.isFinite(time) ||
+    rate < 0 ||
+    time < 0
+  ) {
+    resultBox.textContent = "Please enter valid non-negative values.";
+    return;
+  }
+
+  // Convert dose rate to Sv/hour and exposure duration to hours.
+  const ratePerHour = rate * rateFactor;
+  const durationHours = time * timeFactor;
+  const doseSv = ratePerHour * durationHours;
+
+  const message =
+    `Accumulated dose: ${formatNumber(doseSv)} Sv | ` +
+    `${formatNumber(doseSv * 1000)} mSv | ` +
+    `${formatNumber(doseSv * 1000000)} µSv`;
+
+  resultBox.textContent = message;
+  saveHistory("Dose rate calculation", message);
+}
+
+function renderHistory() {
+  const box = document.getElementById("history");
+  const entries = getHistory();
+
+  if (!entries.length) {
+    box.innerHTML = '<div class="note">No calculations saved yet.</div>';
+    return;
+  }
+
+  box.replaceChildren();
+
+  entries.forEach(entry => {
+    const item = document.createElement("div");
+    item.className = "history-item";
+
+    const date = document.createElement("div");
+    date.className = "history-date";
+    date.textContent = entry.date;
+
+    const title = document.createElement("strong");
+    title.textContent = entry.description;
+
+    const result = document.createElement("div");
+    result.textContent = entry.result;
+
+    item.append(date, title, result);
+    box.appendChild(item);
+  });
+}
+
+async function copyText(text) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+
+      const copied = document.execCommand("copy");
+      area.remove();
+
+      if (!copied) throw new Error("Copy command failed");
+    }
+
+    alert("Copied to clipboard.");
+  } catch {
+    alert("Unable to copy automatically. Please select and copy the text manually.");
+  }
+}
+
+function copyHistory() {
+  const entries = getHistory();
+
+  if (!entries.length) {
+    alert("There is no history to copy.");
+    return;
+  }
+
+  const text = entries.map(entry =>
+    `${entry.date}\n${entry.description}\n${entry.result}`
+  ).join("\n\n");
+
+  copyText(text);
+}
+
+function clearHistory() {
+  if (!confirm("Clear all saved calculation history?")) return;
+
+  localStorage.removeItem(STORAGE_KEY);
+  renderHistory();
+}
+
+renderHistory();
+</script>
+
+</body>
+</html>
